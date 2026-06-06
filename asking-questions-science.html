@@ -1,0 +1,370 @@
+<!-- يقع في: مادة تعليمية / محتوى الدبلومة — "العلم اللي ورا الأسئلة الصح" مع العميل -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>العلم اللي ورا الأسئلة الصح — Interior Zone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1d191a;
+    --bg-soft:#262122;
+    --bg-card:#211d1e;
+    --text:#FFFFFF;
+    --muted:#b7b7b7;
+    --muted-2:#7d7779;
+    --blue:#0077B6;
+    --blue-bright:#1b97df;
+    --yellow:#f2d709;
+    --line:rgba(255,255,255,.08);
+    --line-soft:rgba(255,255,255,.05);
+    --font:'Cairo',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+  /* architectural grid texture */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(var(--line-soft) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+    background-size:46px 46px;
+    pointer-events:none;
+    z-index:0;
+  }
+  body::after{
+    content:"";
+    position:fixed;
+    top:-20%;left:-10%;
+    width:55vw;height:55vw;
+    background:radial-gradient(circle,rgba(0,119,182,.16),transparent 62%);
+    pointer-events:none;z-index:0;
+  }
+  .wrap{position:relative;z-index:1;max-width:1140px;margin:0 auto;padding:54px 26px 90px}
+
+  /* ---------- header ---------- */
+  .brand{
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:46px;
+  }
+  .brand .mark{
+    font-weight:900;letter-spacing:.5px;font-size:15px;
+  }
+  .brand .mark span{display:block;font-weight:700;letter-spacing:7px;font-size:10px;color:var(--muted);margin-top:-3px}
+  .brand .rule{height:1px;flex:1;background:var(--line)}
+  .brand .tag{font-size:10.5px;letter-spacing:3px;color:var(--blue-bright);font-weight:700}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:12px;letter-spacing:1px;color:var(--blue-bright);font-weight:700;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--blue)}
+  h1{
+    font-size:clamp(32px,6vw,60px);
+    font-weight:900;line-height:1.1;letter-spacing:-.5px;
+    max-width:16ch;margin-bottom:18px;
+  }
+  h1 b{color:var(--blue-bright)}
+  .lead{font-size:clamp(15px,2.2vw,19px);color:var(--muted);max-width:54ch;font-weight:400}
+  .hint{
+    margin-top:26px;display:inline-flex;align-items:center;gap:10px;
+    font-size:13px;color:var(--muted-2);font-weight:600;
+    border:1px solid var(--line);border-radius:40px;padding:8px 16px;
+  }
+  .hint .dot{width:7px;height:7px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 4px rgba(242,215,9,.12);animation:pulse 2s infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 8px rgba(242,215,9,0)}}
+
+  /* ---------- grid of icons ---------- */
+  .grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    margin:46px 0 0;
+  }
+  .card{
+    position:relative;cursor:pointer;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:16px;padding:26px 22px 24px;
+    text-align:right;
+    transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s;
+    opacity:0;transform:translateY(18px);
+    animation:rise .6s forwards;
+    overflow:hidden;
+  }
+  .card:nth-child(1){animation-delay:.05s}
+  .card:nth-child(2){animation-delay:.12s}
+  .card:nth-child(3){animation-delay:.19s}
+  .card:nth-child(4){animation-delay:.26s}
+  .card:nth-child(5){animation-delay:.33s}
+  .card:nth-child(6){animation-delay:.40s}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  .card:hover{transform:translateY(-5px);border-color:rgba(0,119,182,.55);background:var(--bg-soft)}
+  .card.active{border-color:var(--blue);background:var(--bg-soft);box-shadow:0 0 0 1px var(--blue),0 18px 50px -22px rgba(0,119,182,.8)}
+  .card .num{
+    position:absolute;top:18px;left:20px;
+    font-size:13px;font-weight:900;letter-spacing:1px;color:var(--muted-2);
+    transition:color .3s;
+  }
+  .card.active .num{color:var(--yellow)}
+  .card .ic{
+    width:48px;height:48px;margin-bottom:18px;color:var(--muted);
+    transition:color .3s,transform .4s;
+  }
+  .card:hover .ic,.card.active .ic{color:var(--blue-bright)}
+  .card.active .ic{transform:scale(1.05)}
+  .card .ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .card h3{font-size:18px;font-weight:800;margin-bottom:6px;line-height:1.35}
+  .card p{font-size:13px;color:var(--muted);font-weight:400;line-height:1.5}
+  .card .corner{position:absolute;bottom:0;right:0;width:0;height:3px;background:var(--blue);transition:width .4s}
+  .card.active .corner{width:100%}
+
+  /* ---------- detail panel ---------- */
+  .panel{
+    margin-top:18px;
+    background:linear-gradient(180deg,var(--bg-soft),var(--bg-card));
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:38px 38px 40px;
+    position:relative;overflow:hidden;
+  }
+  .panel::before{
+    content:"";position:absolute;top:0;right:0;width:5px;height:100%;background:linear-gradient(var(--blue),var(--blue-bright))
+  }
+  .panel .head{display:flex;align-items:center;gap:18px;margin-bottom:8px}
+  .panel .pic{width:46px;height:46px;color:var(--blue-bright);flex-shrink:0}
+  .panel .pic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .panel .pnum{font-size:12px;font-weight:900;color:var(--yellow);letter-spacing:1px}
+  .panel h2{font-size:clamp(22px,4vw,30px);font-weight:900;line-height:1.2}
+  .panel .idea{
+    font-size:17px;color:#e9e6e7;font-weight:600;line-height:1.6;
+    border-right:3px solid var(--blue);padding-right:16px;margin:22px 0 28px;
+  }
+  .panel .label{font-size:11px;letter-spacing:2px;color:var(--blue-bright);font-weight:800;margin-bottom:12px}
+  .block{margin-bottom:26px}
+  .block ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .block li{position:relative;padding-right:22px;font-size:15px;color:#d6d2d3}
+  .block li::before{content:"";position:absolute;right:0;top:11px;width:7px;height:7px;border:1.6px solid var(--blue-bright);border-radius:50%}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{
+    font-size:12.5px;font-weight:700;color:#dfecf4;
+    background:rgba(0,119,182,.13);border:1px solid rgba(0,119,182,.4);
+    padding:7px 13px;border-radius:30px;
+  }
+  .ask{
+    margin-top:8px;background:rgba(242,215,9,.07);
+    border:1px solid rgba(242,215,9,.3);border-radius:14px;
+    padding:18px 20px;
+  }
+  .ask .label{color:var(--yellow);margin-bottom:8px}
+  .ask q{display:block;font-size:16.5px;font-weight:700;color:#fff;font-style:normal}
+  .ask q::before,.ask q::after{content:'"';color:var(--yellow)}
+
+  .swap{animation:swap .45s cubic-bezier(.2,.8,.2,1)}
+  @keyframes swap{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ---------- footer cta ---------- */
+  .foot{
+    margin-top:40px;border-top:1px solid var(--line);padding-top:28px;
+    display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  }
+  .foot p{font-size:14px;color:var(--muted);max-width:48ch}
+  .foot p b{color:#fff}
+  .foot .seq{font-size:11px;letter-spacing:2px;color:var(--muted-2);font-weight:700}
+
+  @media(max-width:780px){
+    .wrap{padding:38px 18px 70px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:11px}
+    .card{padding:22px 18px}
+    .panel{padding:28px 22px 30px}
+  }
+  @media(max-width:460px){
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- brand bar -->
+  <div class="brand">
+    <div class="mark">Interior<span>ZONE</span></div>
+    <div class="rule"></div>
+    <div class="tag">WRITING STORIES FROM SPACE</div>
+  </div>
+
+  <!-- header -->
+  <div class="eyebrow">علم الأسئلة الصح</div>
+  <h1>العلم اللي بيخلّيك تسأل العميل <b>أسئلة محدش بيسألها</b></h1>
+  <p class="lead">الأسئلة الصح مش موهبة — دي ناتج تقاطع 6 علوم. اللي بيفهمهم بيقود العميل من أول جلسة، واللي مش فاهمهم بيستلم ريكوست وينفّذ غلط.</p>
+  <div class="hint"><span class="dot"></span> دوس على أي أيقونة تحت عشان تشوف العلم اللي وراها</div>
+
+  <!-- icon grid -->
+  <div class="grid" id="grid"></div>
+
+  <!-- detail -->
+  <div class="panel" id="panel"></div>
+
+  <!-- footer -->
+  <div class="foot">
+    <p><b>الخلاصة:</b> كل ما اتعمّقت في الطبقات الست دي، أسئلتك بتفرق، وفهمك للعميل بيفرق، ونسبة قبول مشاريعك بتفرق من أول جلسة.</p>
+    <div class="seq">INTERIOR&nbsp;·&nbsp;AI&nbsp;·&nbsp;MARKETING</div>
+  </div>
+
+</div>
+
+<script>
+const ICONS = {
+  design:'<svg viewBox="0 0 24 24"><path d="M3 21V5a2 2 0 0 1 2-2h11l5 5v13"/><path d="M16 3v5h5"/><path d="M7 13h6M7 17h9M7 9h3"/></svg>',
+  discover:'<svg viewBox="0 0 24 24"><path d="M3 4h18"/><path d="M5 4v3l5 6v6l4-2v-4l5-6V4"/><circle cx="17" cy="17" r="3"/><path d="M19.5 19.5 22 22"/></svg>',
+  psych:'<svg viewBox="0 0 24 24"><path d="M9.5 3A6 6 0 0 0 5 13c-.5 1-1.2 1.7-1.8 2.2-.5.4-.3 1.3.3 1.4l1.5.3V20a1 1 0 0 0 1 1h3"/><path d="M9 21v-3h5a3 3 0 0 0 3-3v-1a4 4 0 0 0 4-4 6 6 0 0 0-6-6c-1.2 0-2.3.3-3.2.9"/><path d="M12 9v.01M15 12v.01"/></svg>',
+  craft:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12Z"/><path d="M9.2 9.5a2.8 2.8 0 0 1 5.3 1c0 1.9-2.8 2.5-2.8 2.5"/><path d="M11.7 16.5v.01"/></svg>',
+  listen:'<svg viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 2-1 3-1 5a4 4 0 0 1-7 2.6"/><path d="M9 10a3 3 0 0 1 6 0c0 1.5-1 2-1 3.5"/><path d="M2 9c.7-.7 1.2-1.6 1.5-2.7M22 9c-.7-.7-1.2-1.6-1.5-2.7"/></svg>',
+  nego:'<svg viewBox="0 0 24 24"><path d="m12 4 2.5 2.5L11 10l-2-2"/><path d="m11 10 2 2 2.5-2.5L18 12l2-2-3.5-3.5a2 2 0 0 0-2.8 0L12 8"/><path d="M9.5 8 7 5.5 4 8.5l3.5 3.5a2 2 0 0 0 2.8 0"/><path d="M5 16h4l3 3M19 16h-3"/></svg>'
+};
+
+const DATA = [
+  {
+    id:'design', num:'01',
+    title:'معرفة التصميم الداخلي',
+    teaser:'الأساس اللي بيخلّيك تعرف تسأل عن إيه أصلاً.',
+    idea:'مش هتعرف تسأل بعمق لو مش فاهم الموضوع نفسه. لو مش فاهم الإضاءة مش هتسأل عن استخدام الغرفة بالليل، ولو مش فاهم الإرجونوميكس مش هتسأل عن طول الناس وعاداتهم.',
+    learn:[
+      'تخطيط المساحات والإرجونوميكس — تسأل عن الحركة، عدد الأفراد، وعاداتهم اليومية.',
+      'الوظيفة قبل الشكل — كل مساحة بتعمل إيه فعلاً، مش بس "شكلها عامل إزاي".',
+      'الإضاءة والخامات والتخزين — كل واحدة فيهم بتفتح مجموعة أسئلة.',
+      'قيود المبنى (سباكة / كهرباء / إنشائي) — عشان تسأل عن حدود المشروع من بدري وما توعدش بمستحيل.'
+    ],
+    chips:['Space Planning','Ergonomics','Function before Form','Building Constraints'],
+    ask:'الغرفة دي بتستخدموها امتى أكتر — الصبح ولا بالليل؟'
+  },
+  {
+    id:'discover', num:'02',
+    title:'استخلاص الاحتياج',
+    teaser:'علم منظم لجمع المتطلبات قبل ما ترسم.',
+    idea:'ده علم اسمه Programming / Pre-design في العمارة، و Requirements Elicitation في عالم المنتجات. أغلب المصممين مش عارفين إنه موجود كـ منهج منظم — بيجمعوا متطلبات بالحظ.',
+    learn:[
+      'فرّق بين الاحتياج الوظيفي (محتاج مكتب) والاحتياج العاطفي (عايز أحس إني وصلت).',
+      'فكّر بمنطق Jobs To Be Done — العميل بـ"يوظّف" المساحة عشان تعمله شغلانة في حياته.',
+      'اجمع المتطلبات منظمة قبل أول اسكتش، مش وانت بترسم.'
+    ],
+    chips:['Problem Seeking — W. Peña','Jobs To Be Done — Christensen','Pre-design / Programming'],
+    ask:'المساحة دي المفروض تعملك إيه في حياتك اليومية؟'
+  },
+  {
+    id:'psych', num:'03',
+    title:'علم النفس',
+    teaser:'تفهم ليه العميل بيقول حاجة وعايز حاجة تانية.',
+    idea:'أهم مبدأ: الناس بتقول حاجة (Stated) وبتعمل حاجة تانية (Revealed). شغلتك إنك تطلع الحقيقي مش المعلن. "عايز مودرن" ممكن تعني "عايز أبان قدام الناس".',
+    learn:[
+      'سيكولوجية القرار والـ Biases — ليه العميل بيتمسك بحاجة مش منطقية.',
+      'مين بيقرر فعلاً؟ ساعات اللي ساكت في الجلسة هو صاحب القرار.',
+      'Motivational Interviewing — فن إنك تطلع دوافع الناس بدون ما تضغط.'
+    ],
+    chips:['Stated vs Revealed','Decision Biases','Motivational Interviewing'],
+    ask:'لو بصينا للبيت بعد سنة، إيه اللي يخليك تقول "ده طلع زي ما حلمت"؟'
+  },
+  {
+    id:'craft', num:'04',
+    title:'حِرفة طرح السؤال',
+    teaser:'الأدوات الفعلية اللي بتشتغل بيها في الجلسة.',
+    idea:'دي الأنظمة الجاهزة اللي بتحوّل المعرفة لأسئلة فعلية. أهم كتاب صغير تقراه هنا "The Mom Test" — بيعلّمك تسأل أسئلة ما تجبرش العميل يجاملك ويطلع منه الحقيقة.',
+    learn:[
+      'Open vs Closed — افتح الأول، اقفل في الآخر للتأكيد.',
+      'Funnel — من العام للخاص في بداية الجلسة.',
+      'The 5 Whys — توصل لجذر الطلب الغريب.',
+      'SPIN — يوصّل العميل لاحتياجه بنفسه. / Laddering — من السمة للفائدة للقيمة.'
+    ],
+    chips:['The Mom Test — Fitzpatrick','SPIN Selling — Rackham','5 Whys','Laddering'],
+    ask:'ليه ده مهم بالنسبالك تحديداً؟ (وكرّرها 3 مرات وانت بتعمّق)'
+  },
+  {
+    id:'listen', num:'05',
+    title:'الاستماع النشط',
+    teaser:'السؤال مالوش قيمة لو مش بتسمع صح.',
+    idea:'السؤال أداة، لكن الذهب في اللي بتسمعه — وخصوصاً اللي ماتقالش. أحياناً "تمام خلاص" معناها "مش مقتنع".',
+    learn:[
+      'اسمع عشان تفهم، مش عشان ترد.',
+      'لخّص وارجّع ("يعني انت عايز…") — بيأكد الفهم وبيخلّي العميل يصحّح أو يزود.',
+      'اقرا لغة الجسد ونبرة الصوت، مش بس الكلام.'
+    ],
+    chips:['Reflective Summary','Reading the Unsaid','Non-verbal Cues'],
+    ask:'فهمت منك كذا وكذا… ده صح ولا فاتني حاجة؟'
+  },
+  {
+    id:'nego', num:'06',
+    title:'النيجوشيشن والمبيعات',
+    teaser:'للفلوس، والـ scope، والقرار النهائي.',
+    idea:'هنا بتشتغل أسئلة Chris Voss المعايَرة (Calibrated Questions) اللي بتبدأ بـ "إزاي" و "إيه". بتطلع المعلومة الحساسة من غير ما تخوّف العميل أو توتّره.',
+    learn:[
+      'Calibrated Questions — بدل "ميزانيتك كام؟" قول "إيه اللي يخلي المشروع ده ناجح بالنسبالك؟".',
+      'Mirroring & Labeling — كرّر آخر كلماته وسمّي المشاعر ("باين إن الميزانية موضوع حساس").',
+      'Scope Triangle — اربط الميزانية × الوقت × المستوى من بدري.'
+    ],
+    chips:["Never Split the Difference — Voss",'Calibrated Questions','Anchoring','Scope Triangle'],
+    ask:'إزاي تحب نوصل للنتيجة اللي في دماغك في حدود إمكانياتك؟'
+  }
+];
+
+const grid = document.getElementById('grid');
+const panel = document.getElementById('panel');
+let active = 0;
+
+DATA.forEach((d,i)=>{
+  const c = document.createElement('div');
+  c.className='card';
+  c.innerHTML = `
+    <span class="num">${d.num}</span>
+    <div class="ic">${ICONS[d.id]}</div>
+    <h3>${d.title}</h3>
+    <p>${d.teaser}</p>
+    <span class="corner"></span>`;
+  c.onclick=()=>select(i);
+  grid.appendChild(c);
+});
+
+function select(i){
+  active=i;
+  document.querySelectorAll('.card').forEach((c,idx)=>c.classList.toggle('active',idx===i));
+  const d=DATA[i];
+  panel.innerHTML = `
+    <div class="head">
+      <div class="pic">${ICONS[d.id]}</div>
+      <div>
+        <div class="pnum">الطبقة ${d.num}</div>
+        <h2>${d.title}</h2>
+      </div>
+    </div>
+    <div class="idea">${d.idea}</div>
+    <div class="block">
+      <div class="label">اتعلم إيه</div>
+      <ul>${d.learn.map(l=>`<li>${l}</li>`).join('')}</ul>
+    </div>
+    <div class="block">
+      <div class="label">المصادر والأنظمة</div>
+      <div class="chips">${d.chips.map(ch=>`<span class="chip">${ch}</span>`).join('')}</div>
+    </div>
+    <div class="ask">
+      <div class="label">مثال سؤال جاهز</div>
+      <q>${d.ask}</q>
+    </div>`;
+  panel.classList.remove('swap');void panel.offsetWidth;panel.classList.add('swap');
+}
+
+select(0);
+</script>
+</body>
+</html>
